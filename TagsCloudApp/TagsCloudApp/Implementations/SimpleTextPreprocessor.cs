@@ -81,7 +81,7 @@ namespace TagsCloudApp.Implementations
 			"without"
 		};
 
-		public IEnumerable<WordInfo> ProcessWords(IEnumerable<string> words)
+		public List<WordInfo> ProcessWords(IEnumerable<string> words)
 		{
 			var counter = new Dictionary<string, int>();
 			var c = 0;
@@ -92,7 +92,9 @@ namespace TagsCloudApp.Implementations
 				counter[word]++;
 				c++;
 			}
-			return counter.Select(kv => new WordInfo(kv.Key, kv.Value / c));
+			return counter
+				.Select(kv => new WordInfo(kv.Key, kv.Value / c))
+				.ToList();
 		}
 	}
 }

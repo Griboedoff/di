@@ -3,33 +3,16 @@ using System.Collections.Generic;
 using System.Drawing;
 using System.Linq;
 using TagsCloudApp.Core;
+using TagsCloudApp.Core.Extensions;
 using TagsCloudApp.Core.Interfaces;
 
 namespace TagsCloudApp.Implementations
 {
-	public static class RectangleExtension
-	{
-		public static Point GetCenter(this Rectangle rect) => rect.Location + new Size(rect.Width / 2, rect.Height / 2);
-	}
-
-	public static class PointExtensions
-	{
-		public static Point SnapByX(this Point p)
-		{
-			return new Point(p.X / (p.X != 0 ? Math.Abs(p.X) : 1), 0);
-		}
-
-		public static Point SnapByY(this Point p)
-		{
-			return new Point(0, p.Y / (p.Y != 0 ? Math.Abs(p.Y) : 1));
-		}
-	}
-
 	internal class CircularCloudBuilder : ICloudBuilder
 	{
 		private Point center;
-		private readonly Spiral spiral;
-		private readonly Rectangle cloudBorders;
+		private Spiral spiral;
+		private Rectangle cloudBorders;
 
 		private Point Center
 		{
@@ -54,12 +37,16 @@ namespace TagsCloudApp.Implementations
 			return new Point(nextSpiralPoint.X - rectangleSize.Width / 2, nextSpiralPoint.Y - rectangleSize.Height / 2);
 		}
 
-		public CircularCloudBuilder(Point center)
+		public CircularCloudBuilder()
 		{
-			spiral = new Spiral(center);
-			Center = center;
-			cloudBorders = new Rectangle(0, 0, center.X * 2, center.Y * 2);
 			PlacedRectangles = new List<Rectangle>();
+		}
+
+		private void InitCloud(Point newCenter)
+		{
+			spiral = new Spiral(newCenter);
+			Center = newCenter;
+			cloudBorders = new Rectangle(0, 0, newCenter.X * 2, newCenter.Y * 2);
 		}
 
 		private Rectangle PutNextRectangle(Size rectangleSize)
@@ -115,14 +102,11 @@ namespace TagsCloudApp.Implementations
 			return rectangle;
 		}
 
-		public TagCloud BuildCloud(List<TagCloudItem> cloudItems)
+		public List<TagCloudItem> BuildCloud(List<TagCloudItem> cloudItems, Point newCenter)
 		{
-			Console.WriteLine("end build");
-			foreach (var cloudItem in cloudItems)
-				cloudItem.Rectangle =
-					PutNextRectangle(new Size(cloudItem.FontSize * cloudItem.WordInfo.Word.Length, cloudItem.FontSize * 3));
+			InitCloud(newCenter);
 
-			return new TagCloud(cloudItems, new Size(1000, 1000));
+			return cloudItems.Select(cloudItem => cloudItem.SetRectangle(PutNextRectangle(cloudItem.Rectangle.Size))).ToList();
 		}
 	}
 }

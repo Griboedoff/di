@@ -1,9 +1,10 @@
 ﻿using System.Collections.Generic;
+using System.Drawing;
 
 namespace TagsCloudApp.Core.Interfaces
 {
 	public interface ICloudBuilder
 	{
-		TagCloud BuildCloud(List<TagCloudItem> cloudItems);
+		List<TagCloudItem> BuildCloud(List<TagCloudItem> cloudItems, Point newCenter);
 	}
 }

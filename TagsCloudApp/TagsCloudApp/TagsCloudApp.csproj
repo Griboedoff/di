@@ -39,37 +39,39 @@
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Drawing" />
+    <Reference Include="System.Windows.Forms" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="System.Data" />
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Core\Extensions\PointExtensions.cs" />
+    <Compile Include="Core\Extensions\RectangleExtension.cs" />
     <Compile Include="Core\Interfaces\ICloudBuilder.cs" />
     <Compile Include="Core\Interfaces\IFileReader.cs" />
-    <Compile Include="Core\Interfaces\IPriorityGiver.cs" />
+    <Compile Include="Core\Interfaces\IPrioritySetter.cs" />
     <Compile Include="Core\Interfaces\IRenderer.cs" />
     <Compile Include="Core\Interfaces\ITextPreprocessor.cs" />
+    <Compile Include="Core\Interfaces\IVizualizer.cs" />
     <Compile Include="Core\TagCloud.cs" />
     <Compile Include="Core\TagCloudItem.cs" />
     <Compile Include="Core\WordInfo.cs" />
     <Compile Include="Implementations\CircularCloudBuilder.cs" />
     <Compile Include="Implementations\PngRenderer.cs" />
-    <Compile Include="Implementations\SamePriorityGiver.cs" />
+    <Compile Include="Implementations\SamePrioritySetter.cs" />
     <Compile Include="Implementations\SimpleTextPreprocessor.cs" />
     <Compile Include="Implementations\Spiral.cs" />
     <Compile Include="Implementations\TxtReader.cs" />
+    <Compile Include="Implementations\WinFormVizualizer.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="packages.config" />
-    <Content Include="test">
+    <Content Include="test.txt">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-  </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Core\Interfaces" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

@@ -4,6 +4,6 @@ namespace TagsCloudApp.Core.Interfaces
 {
 	public interface ITextPreprocessor
 	{
-		IEnumerable<WordInfo> ProcessWords(IEnumerable<string> words);
+		List<WordInfo> ProcessWords(IEnumerable<string> words);
 	}
 }

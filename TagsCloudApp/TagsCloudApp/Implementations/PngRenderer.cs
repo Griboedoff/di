@@ -8,6 +8,11 @@ namespace TagsCloudApp.Implementations
 	{
 		private Bitmap image;
 
+		public bool HasRendered()
+		{
+			return image != null;
+		}
+
 		public void RenderImage(TagCloud cloud)
 		{
 			image = new Bitmap(cloud.Size.Width, cloud.Size.Height);
