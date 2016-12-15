@@ -1,9 +1,10 @@
-﻿namespace TagsCloudApp.Core.Interfaces
+﻿using System.Drawing;
+
+namespace TagsCloudApp.Core.Interfaces
 {
 	public interface IRenderer
 	{
-		bool HasRendered();
-		void RenderImage(TagCloud cloud);
-		void SaveImageTo(string path);
+		Image RenderImage(TagCloud cloud);
+		void SaveImageTo(string path, Image image);
 	}
 }

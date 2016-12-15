@@ -5,6 +5,12 @@
 		public readonly string Word;
 		public double Frequency;
 
+		public WordInfo(string word, double frequency)
+		{
+			Word = word;
+			Frequency = frequency;
+		}
+
 		private bool Equals(WordInfo other)
 		{
 			return string.Equals(Word, other.Word);
@@ -30,12 +36,6 @@
 		public static bool operator !=(WordInfo left, WordInfo right)
 		{
 			return !Equals(left, right);
-		}
-
-		public WordInfo(string word, double frequency)
-		{
-			Word = word;
-			Frequency = frequency;
 		}
 	}
 }

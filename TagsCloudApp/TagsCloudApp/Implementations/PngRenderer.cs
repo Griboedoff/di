@@ -6,28 +6,20 @@ namespace TagsCloudApp.Implementations
 {
 	class PngRenderer : IRenderer
 	{
-		private Bitmap image;
-
-		public bool HasRendered()
+		public Image RenderImage(TagCloud cloud)
 		{
-			return image != null;
-		}
-
-		public void RenderImage(TagCloud cloud)
-		{
-			image = new Bitmap(cloud.Size.Width, cloud.Size.Height);
+			var image = new Bitmap(cloud.Size.Width, cloud.Size.Height);
 			var g = Graphics.FromImage(image);
 			g.FillRectangle(Brushes.Black, new Rectangle(new Point(0, 0), cloud.Size));
 
 			foreach (var cloudItem in cloud.Items)
-			{
 				g.DrawString(cloudItem);
-			}
+			return image;
 		}
 
-		public void SaveImageTo(string path)
+		public void SaveImageTo(string path, Image image)
 		{
-			image.Save(path);
+			image.Save(path + ".png");
 		}
 	}
 

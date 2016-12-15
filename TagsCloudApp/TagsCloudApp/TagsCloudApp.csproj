@@ -46,6 +46,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Core\CloudCreator.cs" />
     <Compile Include="Core\Extensions\PointExtensions.cs" />
     <Compile Include="Core\Extensions\RectangleExtension.cs" />
     <Compile Include="Core\Interfaces\ICloudBuilder.cs" />
@@ -56,14 +57,16 @@
     <Compile Include="Core\Interfaces\IVizualizer.cs" />
     <Compile Include="Core\TagCloud.cs" />
     <Compile Include="Core\TagCloudItem.cs" />
+    <Compile Include="Core\TagCloudSettings.cs" />
     <Compile Include="Core\WordInfo.cs" />
     <Compile Include="Implementations\CircularCloudBuilder.cs" />
+    <Compile Include="Implementations\Gui\SettingsForm.cs" />
+    <Compile Include="Implementations\Gui\WinFormVizualizer.cs" />
     <Compile Include="Implementations\PngRenderer.cs" />
     <Compile Include="Implementations\SamePrioritySetter.cs" />
     <Compile Include="Implementations\SimpleTextPreprocessor.cs" />
     <Compile Include="Implementations\Spiral.cs" />
     <Compile Include="Implementations\TxtReader.cs" />
-    <Compile Include="Implementations\WinFormVizualizer.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
@@ -72,6 +75,9 @@
     <Content Include="test.txt">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Implementations" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

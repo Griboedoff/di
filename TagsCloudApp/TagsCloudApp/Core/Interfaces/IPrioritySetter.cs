@@ -4,6 +4,6 @@ namespace TagsCloudApp.Core.Interfaces
 {
 	public interface IPrioritySetter
 	{
-		List<TagCloudItem> SetPriorities(IEnumerable<WordInfo> words);
+		List<TagCloudItem> SetPriorities(IEnumerable<WordInfo> words, TagCloudSettings settings);
 	}
 }

@@ -85,7 +85,7 @@ namespace TagsCloudApp.Implementations
 		{
 			var counter = new Dictionary<string, int>();
 			var c = 0;
-			foreach (var word in words.Where(word => !BoringWords.Contains(word.ToLowerInvariant())))
+			foreach (var word in words.Select(w => w.ToLowerInvariant()).Where(CheckWord))
 			{
 				if (!counter.ContainsKey(word))
 					counter.Add(word, 0);
@@ -95,6 +95,12 @@ namespace TagsCloudApp.Implementations
 			return counter
 				.Select(kv => new WordInfo(kv.Key, kv.Value / c))
 				.ToList();
+		}
+
+		private static bool CheckWord(string word)
+		{
+			return !BoringWords.Contains(word) || word.Length >= 2 ||
+			       !string.IsNullOrWhiteSpace(word) || !string.IsNullOrEmpty(word);
 		}
 	}
 }

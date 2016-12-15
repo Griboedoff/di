@@ -17,10 +17,6 @@ namespace TagsCloudApp.Core
 			Rectangle = rectangle;
 		}
 
-		public TagCloudItem SetColor(Color newColor) => new TagCloudItem(newColor, WordInfo, Font, Rectangle);
-
-		public TagCloudItem SetFont(Font newFont) => new TagCloudItem(Color, WordInfo, newFont, Rectangle);
-
 		public TagCloudItem SetRectangle(Rectangle newRectangle) => new TagCloudItem(Color, WordInfo, Font, newRectangle);
 	}
 }

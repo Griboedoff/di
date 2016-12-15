@@ -14,6 +14,8 @@ namespace TagsCloudApp.Implementations
 		private Spiral spiral;
 		private Rectangle cloudBorders;
 
+		private List<Rectangle> PlacedRectangles { get; set; }
+
 		private Point Center
 		{
 			set
@@ -24,29 +26,34 @@ namespace TagsCloudApp.Implementations
 			}
 		}
 
-		private List<Rectangle> PlacedRectangles { get; }
-
-		private bool IsInValidPosition(Rectangle checkingRectangle)
-		{
-			return !PlacedRectangles.Any(rect => rect.IntersectsWith(checkingRectangle)) &&
-			       cloudBorders.Contains(checkingRectangle);
-		}
-
-		private static Point GetRectangleCenterLocation(Size rectangleSize, Point nextSpiralPoint)
-		{
-			return new Point(nextSpiralPoint.X - rectangleSize.Width / 2, nextSpiralPoint.Y - rectangleSize.Height / 2);
-		}
-
 		public CircularCloudBuilder()
 		{
 			PlacedRectangles = new List<Rectangle>();
 		}
 
+		public List<TagCloudItem> BuildCloud(List<TagCloudItem> cloudItems, Point newCenter)
+		{
+			InitCloud(newCenter);
+
+			var placedItems = new List<TagCloudItem>();
+			foreach (var cloudItem in cloudItems)
+				try
+				{
+					placedItems.Add(cloudItem.SetRectangle(PutNextRectangle(cloudItem.Rectangle.Size)));
+				}
+				catch (ArgumentException ex)
+				{
+					break;
+				}
+			return placedItems;
+		}
+
 		private void InitCloud(Point newCenter)
 		{
-			spiral = new Spiral(newCenter);
 			Center = newCenter;
+			spiral = new Spiral(newCenter);
 			cloudBorders = new Rectangle(0, 0, newCenter.X * 2, newCenter.Y * 2);
+			PlacedRectangles = new List<Rectangle>();
 		}
 
 		private Rectangle PutNextRectangle(Size rectangleSize)
@@ -55,7 +62,6 @@ namespace TagsCloudApp.Implementations
 				throw new ArgumentException($"Size must be positive {rectangleSize}");
 
 			var nextRectangle = FindNextRectanglePosition(rectangleSize);
-
 			if (nextRectangle.IsEmpty) return nextRectangle;
 
 			nextRectangle = MoveToCenter(nextRectangle);
@@ -65,18 +71,29 @@ namespace TagsCloudApp.Implementations
 
 		private Rectangle FindNextRectanglePosition(Size rectangleSize)
 		{
-			var nextSpiralPoint = spiral.GetNextSpiralPoint();
-			var nextRectangle = new Rectangle(GetRectangleCenterLocation(rectangleSize, nextSpiralPoint), rectangleSize);
+			var nextRectangle = new Rectangle(GetRectangleCenterLocation(rectangleSize, spiral.GetNextSpiralPoint()),
+				rectangleSize);
 
 			while (!IsInValidPosition(nextRectangle))
 			{
-				nextSpiralPoint = spiral.GetNextSpiralPoint();
+				var nextSpiralPoint = spiral.GetNextSpiralPoint();
 				nextRectangle = new Rectangle(GetRectangleCenterLocation(rectangleSize, nextSpiralPoint), rectangleSize);
 				if (!cloudBorders.Contains(nextSpiralPoint))
 					throw new ArgumentException("Can't place rectangle because cloud is too small");
 			}
 
 			return nextRectangle;
+		}
+
+		private static Point GetRectangleCenterLocation(Size rectangleSize, Point nextSpiralPoint)
+		{
+			return new Point(nextSpiralPoint.X - rectangleSize.Width / 2, nextSpiralPoint.Y - rectangleSize.Height / 2);
+		}
+
+		private bool IsInValidPosition(Rectangle checkingRectangle)
+		{
+			return !PlacedRectangles.Any(rect => rect.IntersectsWith(checkingRectangle)) &&
+			       cloudBorders.Contains(checkingRectangle);
 		}
 
 		private Rectangle MoveToCenter(Rectangle rectangle)
@@ -96,17 +113,9 @@ namespace TagsCloudApp.Implementations
 		private Rectangle TryMove(Rectangle rectangle, Point shift)
 		{
 			var newRect = new Rectangle(rectangle.Location + new Size(shift), rectangle.Size);
-			var isInValidPosition = IsInValidPosition(newRect);
-			if (isInValidPosition)
+			if (IsInValidPosition(newRect))
 				rectangle = newRect;
 			return rectangle;
-		}
-
-		public List<TagCloudItem> BuildCloud(List<TagCloudItem> cloudItems, Point newCenter)
-		{
-			InitCloud(newCenter);
-
-			return cloudItems.Select(cloudItem => cloudItem.SetRectangle(PutNextRectangle(cloudItem.Rectangle.Size))).ToList();
 		}
 	}
 }
