@@ -45,6 +45,7 @@ namespace TagsCloudApp.Implementations.Gui
 			{
 				image = renderer.RenderImage(creator.Create(settings));
 				Invalidate();
+				Show();
 			}
 			catch (ArgumentException ex)
 			{

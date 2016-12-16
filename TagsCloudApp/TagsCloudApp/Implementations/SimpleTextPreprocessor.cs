@@ -9,6 +9,9 @@ namespace TagsCloudApp.Implementations
 	{
 		private static readonly HashSet<string> BoringWords = new HashSet<string>
 		{
+			"he",
+			"and",
+			"it",
 			"aboard",
 			"about",
 			"above",
@@ -64,6 +67,7 @@ namespace TagsCloudApp.Implementations
 			"save",
 			"since",
 			"than",
+			"the",
 			"through",
 			"to",
 			"toward",
@@ -83,24 +87,17 @@ namespace TagsCloudApp.Implementations
 
 		public List<WordInfo> ProcessWords(IEnumerable<string> words)
 		{
-			var counter = new Dictionary<string, int>();
-			var c = 0;
-			foreach (var word in words.Select(w => w.ToLowerInvariant()).Where(CheckWord))
-			{
-				if (!counter.ContainsKey(word))
-					counter.Add(word, 0);
-				counter[word]++;
-				c++;
-			}
-			return counter
-				.Select(kv => new WordInfo(kv.Key, kv.Value / c))
+			return words.Select(w => w.ToLowerInvariant())
+				.Where(CheckWord)
+				.GroupBy(word => word)
+				.Select(kv => new WordInfo(kv.Key, kv.Count()))
 				.ToList();
 		}
 
 		private static bool CheckWord(string word)
 		{
-			return !BoringWords.Contains(word) || word.Length >= 2 ||
-			       !string.IsNullOrWhiteSpace(word) || !string.IsNullOrEmpty(word);
+			return !(BoringWords.Contains(word) || word.Length < 2 ||
+			         string.IsNullOrWhiteSpace(word) || string.IsNullOrEmpty(word));
 		}
 	}
 }

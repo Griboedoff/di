@@ -63,7 +63,7 @@
     <Compile Include="Implementations\Gui\SettingsForm.cs" />
     <Compile Include="Implementations\Gui\WinFormVizualizer.cs" />
     <Compile Include="Implementations\PngRenderer.cs" />
-    <Compile Include="Implementations\SamePrioritySetter.cs" />
+    <Compile Include="Implementations\LogarithmicPrioritySetter.cs" />
     <Compile Include="Implementations\SimpleTextPreprocessor.cs" />
     <Compile Include="Implementations\Spiral.cs" />
     <Compile Include="Implementations\TxtReader.cs" />
@@ -75,9 +75,6 @@
     <Content Include="test.txt">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-  </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Implementations" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
