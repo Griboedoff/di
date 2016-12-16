@@ -3,5 +3,6 @@
 	public interface IVizualizer
 	{
 		void DrawCloud();
+		void RunVizualizer();
 	}
 }

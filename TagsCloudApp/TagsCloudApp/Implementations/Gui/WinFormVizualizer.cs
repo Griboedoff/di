@@ -6,37 +6,41 @@ using TagsCloudApp.Core.Interfaces;
 
 namespace TagsCloudApp.Implementations.Gui
 {
-	public class WinFormVizualizer : Form, IVizualizer
+	public class WinFormVizualizer : IVizualizer
 	{
 		private readonly CloudCreator creator;
 		private readonly IRenderer renderer;
 		private readonly TagCloudSettings settings;
 		private Image image;
+		private readonly Form form;
 
 		public WinFormVizualizer(CloudCreator creator, IRenderer renderer, TagCloudSettings settings)
 		{
 			this.creator = creator;
 			this.renderer = renderer;
 			this.settings = settings;
+			form = new Form();
+			InitForm();
 			MessageBox.Show("To change settings press 'n'\nTo save cloud press 's'");
 			DrawCloud();
 		}
 
-		protected override void OnKeyPress(KeyPressEventArgs e)
+		private void InitForm()
 		{
-			if (e.KeyChar == 'n')
+			form.KeyPress += (o, e) =>
 			{
-				new SettingsForm<TagCloudSettings>(settings).ShowDialog();
-				DrawCloud();
-			}
-			else if (e.KeyChar == 's')
-				renderer.SaveImageTo(settings.PathToSave, image);
-		}
-
-		protected override void OnPaint(PaintEventArgs e)
-		{
-			e.Graphics.DrawImage(image, new Point(0, 0));
-			Size = image.Size;
+				if (e.KeyChar == 'n')
+				{
+					new SettingsForm<TagCloudSettings>(settings).ShowDialog();
+					DrawCloud();
+				}
+				else if (e.KeyChar == 's')
+					renderer.SaveImageTo(settings.PathToSave, image);
+			};
+			form.Paint += (o, e) => {
+				e.Graphics.DrawImage(image, new Point(0, 0));
+				form.Size = image.Size;
+			};
 		}
 
 		public void DrawCloud()
@@ -44,13 +48,18 @@ namespace TagsCloudApp.Implementations.Gui
 			try
 			{
 				image = renderer.RenderImage(creator.Create(settings));
-				Invalidate();
-				Show();
+				form.Invalidate();
+				form.Show();
 			}
 			catch (ArgumentException ex)
 			{
 				MessageBox.Show(ex.Message);
 			}
+		}
+
+		public void RunVizualizer()
+		{
+			Application.Run(form);
 		}
 	}
 }

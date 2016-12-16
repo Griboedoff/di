@@ -1,5 +1,4 @@
-﻿using System.Windows.Forms;
-using Autofac;
+﻿using Autofac;
 using TagsCloudApp.Core;
 using TagsCloudApp.Core.Interfaces;
 using TagsCloudApp.Implementations;
@@ -19,15 +18,13 @@ namespace TagsCloudApp
 			builder.RegisterType<SimpleTextPreprocessor>().As<ITextPreprocessor>();
 			builder.RegisterType<CloudCreator>().AsSelf();
 			builder.RegisterInstance(TagCloudSettings.DefaultSettings).As<TagCloudSettings>().SingleInstance();
-			builder.RegisterType<WinFormVizualizer>().As<IVizualizer>().As<Form>();
+			builder.RegisterType<WinFormVizualizer>().As<IVizualizer>();
+			builder.RegisterType<ConsoleVizualizer>().As<IVizualizer>();
 
 			var container = builder.Build();
 
 			using (var scope = container.BeginLifetimeScope())
-			{
-				var viz = scope.Resolve<Form>();
-				Application.Run(viz);
-			}
+				scope.Resolve<IVizualizer>().RunVizualizer();
 		}
 	}
 }

@@ -60,6 +60,7 @@
     <Compile Include="Core\TagCloudSettings.cs" />
     <Compile Include="Core\WordInfo.cs" />
     <Compile Include="Implementations\CircularCloudBuilder.cs" />
+    <Compile Include="Implementations\ConsoleVizualizer.cs" />
     <Compile Include="Implementations\Gui\SettingsForm.cs" />
     <Compile Include="Implementations\Gui\WinFormVizualizer.cs" />
     <Compile Include="Implementations\PngRenderer.cs" />
