@@ -16,11 +16,9 @@ namespace TagsCloudApp.Test
 		{
 			var creator = new CloudCreator(new CircularCloudBuilder(), new TxtReader(), new SamePrioritySetter(),
 				new SimpleTextPreprocessor());
-			var tagCloudSettings = new TagCloudSettings(new Font("Arial", 5), Color.Beige, Path.Combine("Test", "test.txt"),
+			var tagCloudSettings = new TagCloudSettings(new Font("Arial", 5), Color.Beige,
+				Path.Combine(TestContext.CurrentContext.TestDirectory, "Test", "test.txt"),
 				"for_test", new Size(1000, 1000));
-//			var tagCloudSettings = new TagCloudSettings(new Font("Arial", 5), Color.Beige,
-//				"/Users/igormb/Shpora/di/TagsCloudApp/TagsCloudApp/bin/Debug/Test/test.txt",
-//				"for_test", new Size(1000, 1000));
 
 			var cloud = creator.Create(tagCloudSettings);
 
