@@ -1,8 +1,7 @@
-﻿using Autofac;
+﻿using System.Reflection;
+using Autofac;
 using TagsCloudApp.Core;
 using TagsCloudApp.Core.Interfaces;
-using TagsCloudApp.Implementations;
-using TagsCloudApp.Implementations.Gui;
 
 namespace TagsCloudApp
 {
@@ -11,14 +10,11 @@ namespace TagsCloudApp
 		public static void Main()
 		{
 			var builder = new ContainerBuilder();
-			builder.RegisterType<TxtReader>().As<IFileReader>();
-			builder.RegisterType<PngRenderer>().As<IRenderer>();
-			builder.RegisterType<CircularCloudBuilder>().As<ICloudBuilder>();
-			builder.RegisterType<SamePrioritySetter>().As<IPrioritySetter>();
-			builder.RegisterType<SimpleTextPreprocessor>().As<ITextPreprocessor>();
+			var asm = Assembly.GetExecutingAssembly();
+			builder.RegisterAssemblyTypes(asm)
+				.AsImplementedInterfaces();
 			builder.RegisterType<CloudCreator>().AsSelf();
 			builder.RegisterInstance(TagCloudSettings.DefaultSettings).As<TagCloudSettings>().SingleInstance();
-			builder.RegisterType<WinFormVizualizer>().As<IVizualizer>();
 
 			var container = builder.Build();
 
