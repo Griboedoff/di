@@ -10,9 +10,9 @@ namespace TagsCloudApp.Implementations
 		private readonly double deltaRadius;
 		private Point currentPoint;
 
-		private double CurrentAngle { get; set; }
+		public double CurrentAngle { get; set; }
 
-		private double CurrentRadius { get; set; }
+		public double CurrentRadius { get; set; }
 
 		public Spiral(Point center, double deltaAngle = Math.PI / 180, double deltaRadius = 0.001)
 		{

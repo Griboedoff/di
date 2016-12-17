@@ -8,7 +8,7 @@ using TagsCloudApp.Core.Interfaces;
 
 namespace TagsCloudApp.Implementations
 {
-	internal class CircularCloudBuilder : ICloudBuilder
+	public class CircularCloudBuilder : ICloudBuilder
 	{
 		private Point center;
 		private Spiral spiral;
@@ -31,6 +31,14 @@ namespace TagsCloudApp.Implementations
 			PlacedRectangles = new List<Rectangle>();
 		}
 
+		private void InitCloud(Point newCenter)
+		{
+			Center = newCenter;
+			spiral = new Spiral(newCenter);
+			cloudBorders = new Rectangle(0, 0, newCenter.X * 2, newCenter.Y * 2);
+			PlacedRectangles = new List<Rectangle>();
+		}
+
 		public List<TagCloudItem> BuildCloud(List<TagCloudItem> cloudItems, Point newCenter)
 		{
 			InitCloud(newCenter);
@@ -41,19 +49,11 @@ namespace TagsCloudApp.Implementations
 				{
 					placedItems.Add(cloudItem.SetRectangle(PutNextRectangle(cloudItem.Rectangle.Size)));
 				}
-				catch (ArgumentException ex)
+				catch (ArgumentException)
 				{
 					break;
 				}
 			return placedItems;
-		}
-
-		private void InitCloud(Point newCenter)
-		{
-			Center = newCenter;
-			spiral = new Spiral(newCenter);
-			cloudBorders = new Rectangle(0, 0, newCenter.X * 2, newCenter.Y * 2);
-			PlacedRectangles = new List<Rectangle>();
 		}
 
 		private Rectangle PutNextRectangle(Size rectangleSize)

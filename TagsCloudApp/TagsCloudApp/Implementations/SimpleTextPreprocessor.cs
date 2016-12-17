@@ -5,11 +5,12 @@ using TagsCloudApp.Core.Interfaces;
 
 namespace TagsCloudApp.Implementations
 {
-	internal class SimpleTextPreprocessor : ITextPreprocessor
+	public class SimpleTextPreprocessor : ITextPreprocessor
 	{
-		private static readonly HashSet<string> BoringWords = new HashSet<string>
+		private static readonly HashSet<string> StopWords = new HashSet<string>
 		{
 			"he",
+			"she",
 			"and",
 			"it",
 			"aboard",
@@ -96,7 +97,7 @@ namespace TagsCloudApp.Implementations
 
 		private static bool CheckWord(string word)
 		{
-			return !(BoringWords.Contains(word) || word.Length < 2 ||
+			return !(StopWords.Contains(word) || word.Length < 2 ||
 			         string.IsNullOrWhiteSpace(word) || string.IsNullOrEmpty(word));
 		}
 	}

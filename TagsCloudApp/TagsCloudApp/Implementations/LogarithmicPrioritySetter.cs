@@ -7,7 +7,7 @@ using TagsCloudApp.Core.Interfaces;
 
 namespace TagsCloudApp.Implementations
 {
-	internal class SamePrioritySetter : IPrioritySetter
+	public class SamePrioritySetter : IPrioritySetter
 	{
 		public List<TagCloudItem> SetPriorities(IEnumerable<WordInfo> words, TagCloudSettings settings)
 		{

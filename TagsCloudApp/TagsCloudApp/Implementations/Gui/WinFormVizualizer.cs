@@ -43,7 +43,7 @@ namespace TagsCloudApp.Implementations.Gui
 			};
 		}
 
-		public void DrawCloud()
+		private void DrawCloud()
 		{
 			try
 			{

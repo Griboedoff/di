@@ -4,7 +4,7 @@ using TagsCloudApp.Core.Interfaces;
 
 namespace TagsCloudApp.Implementations
 {
-	class PngRenderer : IRenderer
+	public class PngRenderer : IRenderer
 	{
 		public Image RenderImage(TagCloud cloud)
 		{

@@ -1,4 +1,5 @@
-﻿using System.Drawing;
+﻿using System;
+using System.Drawing;
 
 namespace TagsCloudApp.Core
 {
@@ -18,5 +19,11 @@ namespace TagsCloudApp.Core
 		}
 
 		public TagCloudItem SetRectangle(Rectangle newRectangle) => new TagCloudItem(Color, WordInfo, Font, newRectangle);
+
+		public static TagCloudItem GetRandomFontSize(Random rnd)
+		{
+			return new TagCloudItem(Color.AliceBlue, new WordInfo("", 100), new Font("Menlo", rnd.Next(int.MaxValue)),
+				default(Rectangle));
+		}
 	}
 }

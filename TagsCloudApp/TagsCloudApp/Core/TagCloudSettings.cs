@@ -13,7 +13,7 @@ namespace TagsCloudApp.Core
 		public string PathToSave { get; set; }
 		public Size Size { get; set; }
 
-		private TagCloudSettings(Font font, Color color, string pathToWords, string pathToSave, Size size)
+		public TagCloudSettings(Font font, Color color, string pathToWords, string pathToSave, Size size)
 		{
 			Font = font;
 			Color = color;

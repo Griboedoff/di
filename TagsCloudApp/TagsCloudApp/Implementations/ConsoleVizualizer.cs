@@ -17,7 +17,7 @@ namespace TagsCloudApp.Implementations
 			cmd = "";
 		}
 
-		public void DrawCloud()
+		private void DrawCloud()
 		{
 			var cloud = creator.Create(settings);
 			foreach (var cloudItem in cloud.Items)

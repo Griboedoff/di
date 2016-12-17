@@ -19,7 +19,6 @@ namespace TagsCloudApp
 			builder.RegisterType<CloudCreator>().AsSelf();
 			builder.RegisterInstance(TagCloudSettings.DefaultSettings).As<TagCloudSettings>().SingleInstance();
 			builder.RegisterType<WinFormVizualizer>().As<IVizualizer>();
-			builder.RegisterType<ConsoleVizualizer>().As<IVizualizer>();
 
 			var container = builder.Build();
 

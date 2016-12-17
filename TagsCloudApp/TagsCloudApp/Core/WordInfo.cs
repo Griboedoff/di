@@ -3,7 +3,7 @@
 	public class WordInfo
 	{
 		public readonly string Word;
-		public double Frequency;
+		public readonly double Frequency;
 
 		public WordInfo(string word, double frequency)
 		{
