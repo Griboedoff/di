@@ -1,6 +1,6 @@
-﻿using System;
-using System.Drawing;
+﻿using System.Drawing;
 using System.Windows.Forms;
+using FluentAssertions;
 using TagsCloudApp.Core;
 using TagsCloudApp.Core.Interfaces;
 
@@ -37,7 +37,8 @@ namespace TagsCloudApp.Implementations.Gui
 				else if (e.KeyChar == 's')
 					renderer.SaveImageTo(settings.PathToSave, image);
 			};
-			form.Paint += (o, e) => {
+			form.Paint += (o, e) =>
+			{
 				e.Graphics.DrawImage(image, new Point(0, 0));
 				form.Size = image.Size;
 			};
@@ -45,16 +46,18 @@ namespace TagsCloudApp.Implementations.Gui
 
 		private void DrawCloud()
 		{
-			try
+			var cloudResult = creator.Create(settings);
+			if (!cloudResult.IsSuccess)
 			{
-				image = renderer.RenderImage(creator.Create(settings));
-				form.Invalidate();
-				form.Show();
+				MessageBox.Show(cloudResult.Error);
+
+				image = new Bitmap(TagCloudSettings.DefaultSettings.Size.Width,
+					TagCloudSettings.DefaultSettings.Size.Height);
 			}
-			catch (ArgumentException ex)
-			{
-				MessageBox.Show(ex.Message);
-			}
+			else
+				image = renderer.RenderImage(cloudResult.Value);
+			form.Invalidate();
+			form.Show();
 		}
 
 		public void RunVizualizer()

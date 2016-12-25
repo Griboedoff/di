@@ -39,21 +39,22 @@ namespace TagsCloudApp.Implementations
 			PlacedRectangles = new List<Rectangle>();
 		}
 
-		public List<TagCloudItem> BuildCloud(List<TagCloudItem> cloudItems, Point newCenter)
+		public Result<List<TagCloudItem>> BuildCloud(List<TagCloudItem> cloudItems, Point newCenter)
 		{
-			InitCloud(newCenter);
-
-			var placedItems = new List<TagCloudItem>();
-			foreach (var cloudItem in cloudItems)
-				try
+			return Result
+				.Of(() =>
 				{
-					placedItems.Add(cloudItem.SetRectangle(PutNextRectangle(cloudItem.Rectangle.Size)));
-				}
-				catch (ArgumentException)
-				{
-					break;
-				}
-			return placedItems;
+					InitCloud(newCenter);
+					var list = new List<TagCloudItem>();
+					foreach (var cloudItem in cloudItems)
+					{
+						var nextRectangle = PutNextRectangle(cloudItem.Rectangle.Size);
+						if (nextRectangle == default(Rectangle))
+							return list;
+						list.Add(cloudItem.SetRectangle(nextRectangle));
+					}
+					return list;
+				});
 		}
 
 		private Rectangle PutNextRectangle(Size rectangleSize)
@@ -79,7 +80,8 @@ namespace TagsCloudApp.Implementations
 				var nextSpiralPoint = spiral.GetNextSpiralPoint();
 				nextRectangle = new Rectangle(GetRectangleCenterLocation(rectangleSize, nextSpiralPoint), rectangleSize);
 				if (!cloudBorders.Contains(nextSpiralPoint))
-					throw new ArgumentException("Can't place rectangle because cloud is too small");
+					return default(Rectangle);
+//					throw new ArgumentException("Can't place rectangle because cloud is too small");
 			}
 
 			return nextRectangle;

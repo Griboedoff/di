@@ -4,6 +4,6 @@ namespace TagsCloudApp.Core.Interfaces
 {
 	public interface IFileReader
 	{
-		IEnumerable<string> GetFileContetByWords(string path);
+		Result<IEnumerable<string>> GetFileContetByWords(string path);
 	}
 }

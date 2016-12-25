@@ -4,7 +4,7 @@ namespace TagsCloudApp.Core
 {
 	public class TagCloudSettings
 	{
-		public static readonly TagCloudSettings DefaultSettings =
+		public static TagCloudSettings DefaultSettings =>
 			new TagCloudSettings(new Font("Meslo", 10), Color.GreenYellow, "test.txt", "test", new Size(500, 500));
 
 		public Font Font { get; set; }

@@ -10,10 +10,11 @@ namespace TagsCloudApp.Implementations
 		{
 			var image = new Bitmap(cloud.Size.Width, cloud.Size.Height);
 			var g = Graphics.FromImage(image);
-			g.FillRectangle(Brushes.Black, new Rectangle(new Point(0, 0), cloud.Size));
 
+			g.FillRectangle(Brushes.Black, new Rectangle(new Point(0, 0), cloud.Size));
 			foreach (var cloudItem in cloud.Items)
 				g.DrawString(cloudItem);
+
 			return image;
 		}
 

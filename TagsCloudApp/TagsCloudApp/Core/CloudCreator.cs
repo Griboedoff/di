@@ -19,13 +19,15 @@ namespace TagsCloudApp.Core
 			this.textPreprocessor = textPreprocessor;
 		}
 
-		public TagCloud Create(TagCloudSettings settings)
+		public Result<TagCloud> Create(TagCloudSettings settings)
 		{
-			var words = reader.GetFileContetByWords(settings.PathToWords);
-			var processedWords = textPreprocessor.ProcessWords(words);
-			var priorities = prioritySetter.SetPriorities(processedWords, settings);
 			var size = settings.Size;
-			return new TagCloud(cloudBuilder.BuildCloud(priorities, new Point(size.Width / 2, size.Height / 2)), size);
+			return reader.GetFileContetByWords(settings.PathToWords)
+				.Then(words => textPreprocessor.ProcessWords(words))
+				.Then(processedWords => prioritySetter.SetPriorities(processedWords, settings))
+				.Then(priorities => cloudBuilder.BuildCloud(priorities, new Point(size.Width / 2, size.Height / 2)))
+				.Then(items => new TagCloud(items, size));
+//				.OnFail()
 		}
 	}
 }

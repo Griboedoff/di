@@ -21,9 +21,11 @@ namespace TagsCloudApp.Test
 				"for_test", new Size(1000, 1000));
 
 			var cloud = creator.Create(tagCloudSettings);
-
-			cloud.Items.Any().Should().BeTrue();
-			cloud.Size.Should().Be(tagCloudSettings.Size);
+			if (cloud.IsSuccess)
+			{
+				cloud.Value.Items.Any().Should().BeTrue();
+				cloud.Value.Size.Should().Be(tagCloudSettings.Size);
+			}
 		}
 	}
 }

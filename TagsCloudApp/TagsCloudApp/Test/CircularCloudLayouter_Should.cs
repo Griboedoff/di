@@ -19,13 +19,12 @@ namespace TagsCloudApp.Test
 
 			var placed = cloud.BuildCloud(GenerateRectangleSizes(10, 1).ToList(), new Point(1000, 1000));
 
-			placed
-				.SelectMany(r1 => placed,
+			placed.Value
+				.SelectMany(r1 => placed.Value,
 					(r2, r1) => r1.Rectangle.IntersectsWith(r2.Rectangle))
 				.Any(r => r)
 				.Should().BeFalse();
 		}
-
 
 		private static IEnumerable<TagCloudItem> GenerateRectangleSizes(int numberOfRectangles, int seed)
 		{

@@ -20,8 +20,11 @@ namespace TagsCloudApp.Implementations
 		private void DrawCloud()
 		{
 			var cloud = creator.Create(settings);
-			foreach (var cloudItem in cloud.Items)
-				Console.WriteLine($"\"{cloudItem.WordInfo.Word}\" count = {cloudItem.WordInfo.Frequency}");
+			if (cloud.IsSuccess)
+				foreach (var cloudItem in cloud.Value.Items)
+					Console.WriteLine($"\"{cloudItem.WordInfo.Word}\" count = {cloudItem.WordInfo.Frequency}");
+			else
+				Console.WriteLine(cloud.Error);
 		}
 
 		public void RunVizualizer()
